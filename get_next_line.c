@@ -6,7 +6,7 @@
 /*   By: fhong <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 17:53:14 by fhong             #+#    #+#             */
-/*   Updated: 2018/05/29 20:18:31 by fhong            ###   ########.fr       */
+/*   Updated: 2018/05/30 13:25:22 by fhong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ int		newline_index(char *str)
 	while (str[index])
 		if (str[index++] == '\n')
 			return (index);
-	if (ft_strlen(str) < BUFF_SIZE)
-		return (1);
 	return (0);
 }
 
@@ -70,13 +68,18 @@ int		get_next_line(int fd, char **line)
 			ret = read(fd, buf, BUFF_SIZE);
 			save = ft_strjoin(save, buf);
 		}
-		if (ret != 0)
+		if (ret == 42)
 		{
-			{
-				*line = ft_strdup(my_strsearch(save, '\n'));
-				save = ft_strdup(&save[newline_index(save)]);
-				return (1);
-			}
+			tmp = my_strsearch(save, '\n');
+			*line = ft_strdup(tmp);
+			free(tmp);
+			save = ft_strdup(&save[newline_index(save)]);
+			return (1);
+		}
+		else if (ret < 42 && ret > 1)
+		{
+			*line = ft_strdup(save);
+			return (1);
 		}
 		else
 			return (0);
