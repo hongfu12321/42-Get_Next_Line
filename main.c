@@ -6,7 +6,7 @@
 /*   By: fhong <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 14:26:10 by fhong             #+#    #+#             */
-/*   Updated: 2018/05/30 15:30:45 by fhong            ###   ########.fr       */
+/*   Updated: 2018/05/30 15:48:39 by fhong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		main(int ac, char **av)
 		return (2);
 	while (get_next_line(fd, &line))
 	{
-//		ft_putendl(line);
+		ft_putendl(line);
 		free(line);
 	}
 	if (ac == 2)
