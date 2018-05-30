@@ -6,7 +6,7 @@
 /*   By: fhong <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 17:53:14 by fhong             #+#    #+#             */
-/*   Updated: 2018/05/30 13:25:22 by fhong            ###   ########.fr       */
+/*   Updated: 2018/05/30 15:30:49 by fhong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ char	*my_strsearch(char *str, char c)
 	char	*tmp;
 
 	i = 0;
+	printf("IN\n");
+	printf("str = %s\n", str);
 	while (str[i])
 		if (str[i++] == c)
 			break;
 	if (i == (int)ft_strlen(str))
-	{
 		return (0);
-	}
 	tmp = ft_strnew(i - 1);
 	tmp = ft_strncpy(tmp, str, i -1);
 	return (tmp);
@@ -54,11 +54,14 @@ int		get_next_line(int fd, char **line)
 		save = ft_strnew(1);
 	*line = ft_strnew(1);
 	buf[BUFF_SIZE] = '\0';
+	printf("save: %s\n", save);
 	if ((tmp = my_strsearch(save, '\n')))
 	{
 		*line = ft_strdup(tmp);
 		free(tmp);
 		save = ft_strdup(&save[newline_index(save)]);
+//		printf("line = %s\n", *line);
+//		printf("save = %s\n", save);
 		return (1);
 	}
 	else
@@ -66,19 +69,19 @@ int		get_next_line(int fd, char **line)
 		while (!newline_index(save))
 		{
 			ret = read(fd, buf, BUFF_SIZE);
+//			printf("buf = %s\n", buf);
+			if (ret == 0)
+				break;
 			save = ft_strjoin(save, buf);
 		}
-		if (ret == 42)
+		if (ret > 0)
 		{
 			tmp = my_strsearch(save, '\n');
 			*line = ft_strdup(tmp);
+		printf("line = %s\n", *line);
 			free(tmp);
 			save = ft_strdup(&save[newline_index(save)]);
-			return (1);
-		}
-		else if (ret < 42 && ret > 1)
-		{
-			*line = ft_strdup(save);
+//			printf("save = %s\n", save);
 			return (1);
 		}
 		else
