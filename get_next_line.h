@@ -1,10 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fhong <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/25 16:32:43 by fhong             #+#    #+#             */
+/*   Updated: 2018/05/25 16:38:19 by fhong            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-#include	<unistd.h>;
-#define		BUFF_SIZE 42;
-
-int			get_next_line(const int fd, char **line);
-
+#define BUFF_SIZE 42
+#include <fcntl.h>
+int		get_next_line(const int fd, char **line);
 
 #endif

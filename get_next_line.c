@@ -6,47 +6,80 @@
 /*   By: fhong <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 17:53:14 by fhong             #+#    #+#             */
-/*   Updated: 2018/05/25 16:31:37 by fhong            ###   ########.fr       */
+/*   Updated: 2018/05/29 20:18:31 by fhong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include "libft.h"
+#include <stdio.h>
 
-char	*store_str(char *buf, char **line)
+char	*my_strsearch(char *str, char c)
 {
-	int		i;
-	int		len;
+	int 	i;
 	char	*tmp;
 
 	i = 0;
-	len = 1;
-	while (buf[len] != '\n' && buf[len])
-		len++;
-	tmp = ft_strnew(len);
-	while (i < len)
+	while (str[i])
+		if (str[i++] == c)
+			break;
+	if (i == (int)ft_strlen(str))
 	{
-		tmp[i] = buf[i];
-		i++;
+		return (0);
 	}
-	*line = ft_strjoin(*line, tmp);
-	if (!buf[i])
-		return (&buf[i]);
-	return (&buf[i + 1]);
+	tmp = ft_strnew(i - 1);
+	tmp = ft_strncpy(tmp, str, i -1);
+	return (tmp);
 }
 
-
-int		get_next_line(const int fd, char **line)
+int		newline_index(char *str)
 {
-	static char	*buf;
-	static int	index;
+	int index;
 
-	if (!buf)
-	   buf = ft_strnew(BUFF_SIZE);
-	if (!index)
-		index = 0;
-	if (!read(fd, store(buf, line), BUFF_SIZE))
-		if ((buf = store(buf, line)))
-			return (1);
+	index = 0;
+	while (str[index])
+		if (str[index++] == '\n')
+			return (index);
+	if (ft_strlen(str) < BUFF_SIZE)
+		return (1);
 	return (0);
+}
+
+int		get_next_line(int fd, char **line)
+{
+	static char	*save;
+	char		buf[BUFF_SIZE + 1];
+	int			ret;
+	char		*tmp;
+
+	if (!save)
+		save = ft_strnew(1);
+	*line = ft_strnew(1);
+	buf[BUFF_SIZE] = '\0';
+	if ((tmp = my_strsearch(save, '\n')))
+	{
+		*line = ft_strdup(tmp);
+		free(tmp);
+		save = ft_strdup(&save[newline_index(save)]);
+		return (1);
+	}
+	else
+	{
+		while (!newline_index(save))
+		{
+			ret = read(fd, buf, BUFF_SIZE);
+			save = ft_strjoin(save, buf);
+		}
+		if (ret != 0)
+		{
+			{
+				*line = ft_strdup(my_strsearch(save, '\n'));
+				save = ft_strdup(&save[newline_index(save)]);
+				return (1);
+			}
+		}
+		else
+			return (0);
+		return (1);
+	}
 }

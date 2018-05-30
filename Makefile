@@ -6,7 +6,7 @@
 #    By: fhong <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/23 14:54:59 by fhong             #+#    #+#              #
-#    Updated: 2018/05/25 16:31:17 by fhong            ###   ########.fr        #
+#    Updated: 2018/05/25 16:40:14 by fhong            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ OBJ = *.o
 all: $(NAME)
 $(NAME):
 	make -C libft
-	gcc -o $(NAME) $(W) $(SRC) -Llibfr -lft -I get_next_line.h
+	gcc -o $(NAME) $(W) $(SRC) -Llibft -lft -I get_next_line.h
 
 clean:
 	make clean -C libft
