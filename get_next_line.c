@@ -46,13 +46,15 @@ int		get_next_line(int fd, char **line)
 	static char	*save;
 	char		*buf;
 	int			ret;
+	char		*tmp;
 
 	if ((fd < 0 || line == NULL))
 		return (-1);
 	if (!save)
 		save = ft_strnew(1);
 	*line = ft_strnew(1);
-	while (!newline_index(save))
+//	while (!newline_index(save))
+	while (!ft_strchr(save, '\n'))
 	{
 		buf = ft_strnew(BUFF_SIZE);
 		if(!(ret = read(fd, buf, BUFF_SIZE)))
@@ -60,7 +62,9 @@ int		get_next_line(int fd, char **line)
 		save = ft_strjoin(save, buf);
 		free(buf);
 	}
-	*line = ft_strdup(my_strsearch(save, '\n'));
-	save = ft_strdup(&save[newline_index(save)]);
+	*line = ft_strdup(tmp = my_strsearch(save, '\n'));
+//	save = ft_strdup(&save[newline_index(save)]);
+	save = ft_strdup((ft_strchr(save, '\n')) + 1);
+	free(tmp);
 	return (1);
 }
