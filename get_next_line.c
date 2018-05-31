@@ -6,7 +6,7 @@
 /*   By: fhong <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 17:53:14 by fhong             #+#    #+#             */
-/*   Updated: 2018/05/30 15:49:41 by fhong            ###   ########.fr       */
+/*   Updated: 2018/05/30 20:13:25 by fhong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*my_strsearch(char *str, char c)
 	if (i == (int)ft_strlen(str) && str[i - 1] != '\n')
 		return (0);
 	tmp = ft_strnew(i - 1);
-	tmp = ft_strncpy(tmp, str, i -1);
+	tmp = ft_strncpy(tmp, str, i - 1);
 	return (tmp);
 }
 
@@ -44,40 +44,20 @@ int		newline_index(char *str)
 int		get_next_line(int fd, char **line)
 {
 	static char	*save;
-	char		buf[BUFF_SIZE + 1];
+	char		*buf;
 	int			ret;
-	char		*tmp;
 
 	if (!save)
 		save = ft_strnew(1);
 	*line = ft_strnew(1);
-	buf[BUFF_SIZE] = '\0';
-	if ((tmp = my_strsearch(save, '\n')))
+	while (!newline_index(save))
 	{
-		*line = ft_strdup(tmp);
-		free(tmp);
-		save = ft_strdup(&save[newline_index(save)]);
-		return (1);
-	}
-	else
-	{
-		while (!newline_index(save))
-		{
-			ret = read(fd, buf, BUFF_SIZE);
-			if (ret == 0)
-				break;
-			save = ft_strjoin(save, buf);
-		}
-		if (ret > 0)
-		{
-			tmp = my_strsearch(save, '\n');
-			*line = ft_strdup(tmp);
-			free(tmp);
-			save = ft_strdup(&save[newline_index(save)]);
-			return (1);
-		}
-		else
+		buf = ft_strnew(BUFF_SIZE);
+		if(!(ret = read(fd, buf, BUFF_SIZE)))
 			return (0);
-		return (1);
+		save = ft_strjoin(save, buf);
 	}
+	*line = ft_strdup(my_strsearch(save, '\n'));
+	save = ft_strdup(&save[newline_index(save)]);
+	return (1);
 }
