@@ -6,7 +6,7 @@
 /*   By: fhong <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 17:53:14 by fhong             #+#    #+#             */
-/*   Updated: 2018/05/30 20:13:25 by fhong            ###   ########.fr       */
+/*   Updated: 2018/05/30 20:28:34 by fhong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int		get_next_line(int fd, char **line)
 	char		*buf;
 	int			ret;
 
+	if ((fd < 0 || line == NULL || read(fd, buf, 0) < 0))
+		return (-1);
 	if (!save)
 		save = ft_strnew(1);
 	*line = ft_strnew(1);
