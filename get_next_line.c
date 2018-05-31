@@ -6,7 +6,7 @@
 /*   By: fhong <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 17:53:14 by fhong             #+#    #+#             */
-/*   Updated: 2018/05/30 20:35:01 by fhong            ###   ########.fr       */
+/*   Updated: 2018/05/30 20:46:00 by fhong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int		get_next_line(int fd, char **line)
 			return (0);
 		save = ft_strjoin(save, buf);
 	}
+	free(buf);
 	*line = ft_strdup(my_strsearch(save, '\n'));
 	save = ft_strdup(&save[newline_index(save)]);
 	return (1);
