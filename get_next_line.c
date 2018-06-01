@@ -6,7 +6,7 @@
 /*   By: fhong <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/31 20:14:49 by fhong             #+#    #+#             */
-/*   Updated: 2018/05/31 20:19:24 by fhong            ###   ########.fr       */
+/*   Updated: 2018/05/31 20:40:05 by fhong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,23 +36,25 @@ int		get_next_line(int fd, char **line)
 	char		*buf;
 	int			ret;
 	char		*tmp;
+	char	*test;
 
 	if ((fd < 0 || line == NULL))
 		return (-1);
 	if (!save)
 		save = ft_strnew(1);
-	*line = ft_strnew(1);
-	while (!ft_strchr(save, '\n'))
+	*line = ft_strdup(save);
+	while (!ft_strchr(*line, '\n'))
 	{
 		buf = ft_strnew(BUFF_SIZE);
 		if(!(ret = read(fd, buf, BUFF_SIZE)))
 			return (0);
-		save = ft_strjoin(save, buf);
+		*line = ft_strjoin(*line, buf);
 		free(buf);
 	}
 	tmp = *line;
-	*line = ft_strdup(my_strsearch(save, '\n'));
-	save = ft_strdup((ft_strchr(save, '\n')) + 1);
+	test = ft_strchr(*line, '\n') + 1;
+	save = ft_strdup(test);
+	*line = ft_strdup(my_strsearch(*line, '\n'));
 	free(tmp);
 	return (1);
 }
