@@ -6,7 +6,7 @@
 /*   By: fhong <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 14:26:10 by fhong             #+#    #+#             */
-/*   Updated: 2018/06/01 17:14:03 by fhong            ###   ########.fr       */
+/*   Updated: 2018/06/01 18:08:08 by fhong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ int		main(int ac, char **av)
 	char	*line;
 	int		fd;
 	if (ac == 1)
-		fd = 0;
+	{
+		fd = 1;
+		write(fd, "abc\n\n", 5);
+	}
 	else if (ac == 2)
 		fd = open(av[1], O_RDONLY);
 	else
