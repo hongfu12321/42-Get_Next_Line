@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fhong <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/31 20:14:49 by fhong             #+#    #+#             */
-/*   Updated: 2018/06/01 19:06:05 by fhong            ###   ########.fr       */
+/*   Created: 2018/06/01 19:04:33 by fhong             #+#    #+#             */
+/*   Updated: 2018/06/01 19:24:42 by fhong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,29 +33,29 @@ char	*my_strsearch(char *str, char c)
 
 int		get_next_line(int fd, char **line)
 {
-	static char	*buf;
+	static char	*buf[1024];
 	int			ret;
 	char		*tmp;
 
-	if (!buf)
-		buf = ft_strnew(BUFF_SIZE);
-	if ((read(fd, buf, 0) < 0 || line == NULL))
+	if (fd < 0 || read(fd, buf[fd], 0) < 0 || line == NULL)
 		return (-1);
-	*line = ft_strdup(buf);
-	while (!ft_strchr(*line, '\n') && (ret = read(fd, buf, BUFF_SIZE)))
+	if (!buf[fd])
+		buf[fd] = ft_strnew(BUFF_SIZE);
+	*line = ft_strdup(buf[fd]);
+	while (!ft_strchr(*line, '\n') && (ret = read(fd, buf[fd], BUFF_SIZE)))
 	{
-		buf[ret] = '\0';
+		buf[fd][ret] = '\0';
 		tmp = *line;
-		*line = ft_strjoin(*line, buf);
-		ft_bzero(buf, ft_strlen(buf));
+		*line = ft_strjoin(*line, buf[fd]);
+		ft_bzero(buf[fd], ft_strlen(buf[fd]));
 		free(tmp);
 	}
 	if (ft_strlen(*line) == 0)
 		return (0);
-	if (ft_strchr(*line, '\n'))
-		buf = ft_strcpy(buf, (ft_strchr(*line, '\n') + 1));
+	if ((tmp = ft_strchr(*line, '\n')))
+		buf[fd] = ft_strcpy(buf[fd], (tmp + 1));
 	else
-		buf = NULL;
+		buf[fd] = NULL;
 	*line = my_strsearch(*line, '\n');
 	return (1);
 }
