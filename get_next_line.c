@@ -6,7 +6,7 @@
 /*   By: fhong <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/31 20:14:49 by fhong             #+#    #+#             */
-/*   Updated: 2018/06/01 18:40:33 by fhong            ###   ########.fr       */
+/*   Updated: 2018/06/01 19:06:05 by fhong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ char	*my_strsearch(char *str, char c)
 		{
 			tmp = ft_strnew(i - 1);
 			tmp = ft_strncpy(tmp, str, i - 1);
+			free(str);
 			return (tmp);
 		}
 	return (str);
@@ -51,8 +52,8 @@ int		get_next_line(int fd, char **line)
 	}
 	if (ft_strlen(*line) == 0)
 		return (0);
-	if ((tmp = ft_strchr(*line, '\n')))
-		buf = ft_strcpy(buf, (tmp + 1));
+	if (ft_strchr(*line, '\n'))
+		buf = ft_strcpy(buf, (ft_strchr(*line, '\n') + 1));
 	else
 		buf = NULL;
 	*line = my_strsearch(*line, '\n');
