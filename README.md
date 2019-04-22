@@ -1,9 +1,7 @@
 ### Get Next Line
-##Installation:
-- git clone https://github.com/mikim42/Get_next_line.git
 
 ## Usage:
-- get next line is a function that reads a file line by line
+- get next line is a function which can reads mulitple file descriptors line by line
 
 ## Return value:
 - return 1 when it read a line
