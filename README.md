@@ -1,7 +1,7 @@
 ### Get Next Line
 
 ## Usage:
-- get next line is a function which can reads mulitple file descriptors line by line
+- get next line is a function which can read multiple file descriptors line by line
 
 ## Return value:
 - return 1 when it read a line
